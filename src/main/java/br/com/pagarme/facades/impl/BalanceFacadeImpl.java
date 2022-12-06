@@ -30,6 +30,7 @@ public class BalanceFacadeImpl implements BalanceFacade {
         BalanceResponseDTO balanceResponseDTO = new BalanceResponseDTO();
         BigDecimal balancesPaid = BigDecimal.ZERO;
         BigDecimal balancesWaiting = BigDecimal.ZERO;
+        BigDecimal totalBalance = BigDecimal.ZERO;
 
         for (PayablesEntity payablesEntity : payableService.findByBearerName(bearerName)) {
             balanceResponseDTO.setName(payablesEntity.getBearerName());
@@ -40,6 +41,10 @@ public class BalanceFacadeImpl implements BalanceFacade {
             BigDecimal waitingFunds = payablesEntity.getWaitingFunds();
             balancesWaiting = waitingFunds.add(balancesWaiting);
             balanceResponseDTO.setBalanceWaitingFunds(balancesWaiting);
+
+            BigDecimal totalFunds = payablesEntity.getValue();
+            totalBalance = totalFunds.add(totalBalance);
+            balanceResponseDTO.setTotalBalance(totalBalance);
         }
 
         return balanceResponseDTO;

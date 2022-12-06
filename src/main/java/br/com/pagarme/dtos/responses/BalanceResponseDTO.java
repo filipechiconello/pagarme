@@ -15,4 +15,5 @@ public class BalanceResponseDTO {
     private String name;
     private BigDecimal balanceAvailable;
     private BigDecimal balanceWaitingFunds;
+    private BigDecimal totalBalance;
 }

@@ -16,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -39,6 +41,16 @@ public class TransactionsFacadeImpl implements TransactionsFacade {
         return convertTransactionsEntityDTOtoTransactionsResponseDTO(
                 transactionsService.save(convertTransactionsRequestDTOtoTransactionsEntity(
                 transactionsRequestDTO)));
+    }
+
+    @Override
+    public List<TransactionsResponsesDTO> findAll() {
+        List<TransactionsResponsesDTO> transactionsResponsesDTOList = new ArrayList<>();
+        transactionsService.findAll().forEach(transactionsEntity -> {
+            transactionsResponsesDTOList.add(convertTransactionsEntityDTOtoTransactionsResponseDTO(transactionsEntity));
+        });
+
+        return transactionsResponsesDTOList;
     }
 
     private TransactionsEntity convertTransactionsRequestDTOtoTransactionsEntity(TransactionsRequestDTO transactionsRequestDTO) {

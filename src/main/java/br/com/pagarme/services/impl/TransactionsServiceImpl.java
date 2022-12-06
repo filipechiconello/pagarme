@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 public class TransactionsServiceImpl implements TransactionsService {
@@ -18,5 +21,14 @@ public class TransactionsServiceImpl implements TransactionsService {
     public TransactionsEntity save(TransactionsEntity transactionsEntity) {
         log.info("creating new transaction");
         return transactionsRepository.save(transactionsEntity);
+    }
+
+    @Override
+    public List<TransactionsEntity> findAll() {
+        log.info("listing all transactions");
+        List<TransactionsEntity> transactionsEntityList = new ArrayList<>();
+        transactionsRepository.findAll().forEach(transactionsEntityList::add);
+
+        return transactionsEntityList;
     }
 }
