@@ -1,0 +1,29 @@
+swagger:
+  contact:
+    name: 'Filipe Chiconello'
+    email: "filipe.chiconello@geradordedevs.com.br"
+  app:
+    name: pagarme-api
+    version: 0.0.1
+    description: Pagar Me API.
+  base:
+    package: br.com.pagarme.controllers
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path:
+      path-mapping:
+        health: /healthcheck
+
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI}

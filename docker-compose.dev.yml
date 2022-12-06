@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  server:
+    entrypoint: [ "sh", "-c", "java -cp app:app/lib/* br.com.pagarme.PagarMeApplication" ]
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb-pagarme-api:27017/pagarme-api
+
+    depends_on:
+      - db
+
+  db:
+    image: 'mongo'
+    container_name: mongodb-pagarme-api
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./data/db:/data/db
