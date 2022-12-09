@@ -29,6 +29,10 @@ public class TransactionsContollers {
         return new ResponseEntity<>(transactionsFacade.save(transactionsRequestDTO), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "listing all transactions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "listing all transactions successfully"),
+    })
     @GetMapping
     public ResponseEntity<List<TransactionsResponsesDTO>> findAll() {
         return new ResponseEntity<>(transactionsFacade.findAll(), HttpStatus.OK);
