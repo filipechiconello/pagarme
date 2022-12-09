@@ -23,7 +23,7 @@ public class TransactionsContollers {
 
     @Operation(summary = "creating new transaction")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "creating new transaction successfully"),
+            @ApiResponse(responseCode = "201", description = "creating new transaction successfully"),
     })
     @PostMapping
     public ResponseEntity<TransactionsResponsesDTO> save(@Valid @RequestBody TransactionsRequestDTO transactionsRequestDTO) {

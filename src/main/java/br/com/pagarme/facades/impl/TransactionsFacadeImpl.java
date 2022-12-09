@@ -16,10 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 @Slf4j
@@ -40,7 +37,7 @@ public class TransactionsFacadeImpl implements TransactionsFacade {
     public TransactionsResponsesDTO save(TransactionsRequestDTO transactionsRequestDTO) {
         return convertTransactionsEntityDTOtoTransactionsResponseDTO(
                 transactionsService.save(convertTransactionsRequestDTOtoTransactionsEntity(
-                transactionsRequestDTO)));
+                        transactionsRequestDTO)));
     }
 
     @Override
@@ -57,27 +54,29 @@ public class TransactionsFacadeImpl implements TransactionsFacade {
         TransactionsEntity transactionsEntity = modelMapper.map(transactionsRequestDTO, TransactionsEntity.class);
         transactionsEntity.setCardNumber(CARD_NUMBER.concat(transactionsRequestDTO.getCardNumber().substring(transactionsRequestDTO.getCardNumber().length() - 4)));
 
-        if (transactionsRequestDTO.getPaymentMethod() == PaymentMethodEnum.DEBIT_CARD) {
-            payableService.save(new PayablesEntity(
-                    null,
-                    StatusEnum.PAID,
-                    new Date(),
-                    validateDebit(transactionsEntity.getValue()),
-                    BigDecimal.ZERO,
-                    validateDebit(transactionsEntity.getValue()),
-                    transactionsRequestDTO.getBearerName()));
+        switch (transactionsRequestDTO.getPaymentMethod()) {
+            case DEBIT_CARD:
+                payableService.save(new PayablesEntity(
+                        null,
+                        StatusEnum.PAID,
+                        new Date(),
+                        validateDebit(transactionsEntity.getValue()),
+                        BigDecimal.ZERO,
+                        validateDebit(transactionsEntity.getValue()),
+                        transactionsRequestDTO.getBearerName()));
 
         }
 
-        if (transactionsRequestDTO.getPaymentMethod() == PaymentMethodEnum.CREDIT_CARD) {
-            payableService.save(new PayablesEntity(
-                    null,
-                    StatusEnum.WAITING_FUNDS,
-                    validateDate(new Date()),
-                    BigDecimal.ZERO,
-                    validateCredit(transactionsEntity.getValue()),
-                    validateCredit(transactionsEntity.getValue()),
-                    transactionsRequestDTO.getBearerName()));
+        switch (transactionsRequestDTO.getPaymentMethod()) {
+            case CREDIT_CARD:
+                payableService.save(new PayablesEntity(
+                        null,
+                        StatusEnum.WAITING_FUNDS,
+                        validateDate(new Date()),
+                        BigDecimal.ZERO,
+                        validateCredit(transactionsEntity.getValue()),
+                        validateCredit(transactionsEntity.getValue()),
+                        transactionsRequestDTO.getBearerName()));
 
         }
 
@@ -86,7 +85,7 @@ public class TransactionsFacadeImpl implements TransactionsFacade {
 
     private TransactionsResponsesDTO convertTransactionsEntityDTOtoTransactionsResponseDTO(TransactionsEntity transactionsEntity) {
         TransactionsResponsesDTO transactionsResponsesDTO = modelMapper.map(transactionsEntity, TransactionsResponsesDTO.class);
-        transactionsResponsesDTO.setCardNumber(CARD_NUMBER.concat(transactionsEntity.getCardNumber().substring(transactionsEntity.getCardNumber().length() - 4)));
+        transactionsResponsesDTO.setCardNumber(concat(CARD_NUMBER, transactionsEntity.getCardNumber().substring(transactionsEntity.getCardNumber().length() - 4)));
 
         if (transactionsEntity.getPaymentMethod() == PaymentMethodEnum.DEBIT_CARD) {
             transactionsResponsesDTO.setPayables(new PayableResponseDTO(StatusEnum.PAID, new Date()));
@@ -95,6 +94,10 @@ public class TransactionsFacadeImpl implements TransactionsFacade {
         }
 
         return transactionsResponsesDTO;
+    }
+
+    private String concat(String s, String s1) {
+        return s.concat(s1);
     }
 
     private Date validateDate(Date date) {

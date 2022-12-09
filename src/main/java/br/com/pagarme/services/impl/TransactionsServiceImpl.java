@@ -19,7 +19,7 @@ public class TransactionsServiceImpl implements TransactionsService {
 
     @Override
     public TransactionsEntity save(TransactionsEntity transactionsEntity) {
-        log.info("creating new transaction");
+        log.info("creating new transaction - {}", transactionsEntity);
         return transactionsRepository.save(transactionsEntity);
     }
 

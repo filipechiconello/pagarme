@@ -6,6 +6,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
       - SPRING_DATA_MONGODB_URI=mongodb://mongodb-pagarme-api:27017/pagarme-api
+    ports:
+      - '8080:8080'
 
     depends_on:
       - db

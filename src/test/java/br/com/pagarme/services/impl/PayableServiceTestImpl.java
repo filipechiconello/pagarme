@@ -14,7 +14,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -54,7 +53,6 @@ public class PayableServiceTestImpl {
 
     //Auxiliary Methods:
     private PayablesEntity mustReturnPayablesEntity() {
-
         Date date = new Date();
         date.setTime(1L);
         return new PayablesEntity(ID,

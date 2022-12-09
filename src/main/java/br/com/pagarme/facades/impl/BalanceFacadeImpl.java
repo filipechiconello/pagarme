@@ -2,6 +2,8 @@ package br.com.pagarme.facades.impl;
 
 import br.com.pagarme.dtos.responses.BalanceResponseDTO;
 import br.com.pagarme.entities.PayablesEntity;
+import br.com.pagarme.exceptions.PayablesException;
+import br.com.pagarme.exceptions.enums.PayablesEnum;
 import br.com.pagarme.facades.BalanceFacade;
 import br.com.pagarme.services.PayableService;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 @Component
 @Slf4j
@@ -23,6 +26,9 @@ public class BalanceFacadeImpl implements BalanceFacade {
 
     @Override
     public BalanceResponseDTO getBalances(String bearerName) {
+        if (bearerName.isEmpty() || bearerName.isBlank()) {
+            throw new PayablesException(PayablesEnum.PAYABLES_NOT_FOUND);
+        }
         return validateBalances(bearerName);
     }
 

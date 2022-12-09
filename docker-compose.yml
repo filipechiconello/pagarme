@@ -7,5 +7,3 @@ services:
     volumes:
       - ./tmp:/app/tmp
       - ./log:/app/log
-    ports:
-      - '8080:8080'

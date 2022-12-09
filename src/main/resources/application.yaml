@@ -4,7 +4,7 @@ swagger:
     email: "filipe.chiconello@geradordedevs.com.br"
   app:
     name: pagarme-api
-    version: 0.0.1
+    version: 0.2.0
     description: Pagar Me API.
   base:
     package: br.com.pagarme.controllers

@@ -19,11 +19,13 @@ public class PayableServiceImpl implements PayableService {
 
     @Override
     public PayablesEntity save(PayablesEntity payablesEntity) {
+        log.info("creating new payable - {}", payablesEntity);
         return payablesRepository.save(payablesEntity);
     }
 
     @Override
     public List<PayablesEntity> findByBearerName(String bearerName) {
+        log.info("listing payable from bearer name - {}", bearerName);
         List<PayablesEntity> payablesEntityList = new ArrayList<>();
         payablesRepository.findByBearerName(bearerName).forEach(payablesEntityList::add);
 
